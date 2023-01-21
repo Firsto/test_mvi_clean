@@ -1,0 +1,26 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/emptyFragment">
+
+    <fragment
+        android:id="@+id/emptyFragment"
+        android:name="androidx.fragment.app.Fragment" />
+
+    <fragment
+        android:id="@+id/invoices"
+        android:name="studio.inprogress.simpleinvoices.ui.invoices.InvoicesListFragment"
+        android:label="Invoices"
+        tools:layout="@layout/fragment_invoices_list" />
+
+<!--    <fragment-->
+<!--        android:id="@+id/invoice"-->
+<!--        android:name="studio.inprogress.simpleinvoices.ui.invoices.InvoiceDetailFragment"-->
+<!--        android:label="Invoice Detail"-->
+<!--        tools:layout="@layout/fragment_invoice_detail">-->
+<!--        <argument-->
+<!--            android:name="id"-->
+<!--            app:argType="string" />-->
+<!--    </fragment>-->
+
+</navigation>

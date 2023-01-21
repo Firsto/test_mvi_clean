@@ -1,0 +1,107 @@
+import java.text.SimpleDateFormat
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+
+    namespace 'studio.inprogress.simpleinvoices'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "studio.inprogress.simpleinvoices"
+        minSdk 21
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        buildConfigField "String", "API_HOST", '"https://storage.googleapis.com"'
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+
+            def date = new SimpleDateFormat("MMdd").format(new Date())
+            versionNameSuffix "-debug" + date
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
+}
+
+kapt {
+    javacOptions {
+        // These options are normally set automatically via the Hilt Gradle plugin, but we
+        // set them manually to workaround a bug in the Kotlin 1.5.20
+        option("-Adagger.fastInit=ENABLED")
+        option("-Adagger.hilt.android.internal.disableAndroidSuperclassValidation=true")
+    }
+
+    correctErrorTypes = true
+}
+
+dependencies {
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$deps.desugaringVersion"
+
+    implementation "androidx.multidex:multidex:$deps.multidexVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$deps.coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$deps.coroutinesVersion"
+
+    implementation "com.google.dagger:hilt-android:$deps.hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$deps.hiltVersion"
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+
+    implementation "com.jakewharton.timber:timber:$deps.timberVersion"
+
+    implementation "androidx.core:core-ktx:$deps.coreKtxVersion"
+    implementation "androidx.appcompat:appcompat:$deps.appcompatVersion"
+    implementation "com.google.android.material:material:$deps.materialVersion"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$deps.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$deps.navigationVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$deps.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$deps.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$deps.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$deps.lifecycleVersion"
+    implementation "androidx.recyclerview:recyclerview:$deps.recyclerVersion"
+
+    implementation "com.squareup.retrofit2:retrofit:$deps.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$deps.retrofitVersion"
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
+
+    // FastAdapter
+    implementation "com.mikepenz:fastadapter:5.7.0"
+    implementation "com.mikepenz:fastadapter-extensions-expandable:5.7.0"
+    implementation "com.mikepenz:fastadapter-extensions-binding:5.7.0"
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}
